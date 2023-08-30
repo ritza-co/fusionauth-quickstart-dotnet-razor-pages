@@ -1,10 +1,11 @@
 {
     "variables": {
-        "allowedOrigin": "http://localhost:3000",
-        "authorizedRedirectURL": "http://localhost:3000/auth/fusionauth/callback",
-        "authorizedOriginURL": "http://localhost:3000",
-        "logoutURL": "http://localhost:3000",
+        "allowedOrigin": "https://localhost:7028/",
+        "authorizedRedirectURL": "https://localhost:7028/callback",
+        "authorizedOriginURL": "https://localhost:7028/",
+        "logoutURL": "https://localhost:7028/",
         "applicationId": "e9fdb985-9173-4e01-9d73-ac2d60d1dc8e",
+        "applicationClientSecret": "super-secret-secret-that-should-be-regenerated-for-production",
         "apiKey": "this_really_should_be_a_long_random_alphanumeric_value_but_this_still_works",
         "asymmetricKeyId": "#{UUID()}",
         "newThemeId": "#{UUID()}",
@@ -89,7 +90,7 @@
                 "oauthConfiguration" : {
                     "authorizedRedirectURLs": ["#{authorizedRedirectURL}"],
                     "authorizedOriginURLs": ["#{authorizedOriginURL}"],
-                    "clientSecret": "super-secret-secret-that-should-be-regenerated-for-production",
+                    "clientSecret": "#{applicationClientSecret}",
                     "logoutURL": "#{logoutURL}",
                     "enabledGrants": ["authorization_code","refresh_token"],
                     "debug": true,
