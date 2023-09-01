@@ -1,78 +1,96 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using MyApp.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
-SetupAuthentication(builder);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Add this before any other middleware that might write cookies
+app.UseCookiePolicy(new CookiePolicyOptions
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    Secure = CookieSecurePolicy.Always
+});
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapRazorPages();
-
+startup.Configure(app, builder.Environment);
 app.Run();
 
 
-static void SetupAuthentication(WebApplicationBuilder builder)
-{
 
-    var services = builder.Services;
+//var builder = WebApplication.CreateBuilder(args);
+//SetupAuthentication(builder);
 
-    services.AddAuthentication(options => {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
-    .AddOpenIdConnect("FusionAuth", options => {
+//// Add services to the container.
+//builder.Services.AddRazorPages();
 
-        // TODO: Uncomment only if you are running FusionAuth on localhost for development: 
-        // options.RequireHttpsMetadata = false;
-        options.Authority = $"{builder.Configuration["FusionAuth:Issuer"]}";
+//var app = builder.Build();
 
-        options.ClientId = builder.Configuration["FusionAuth:ClientId"];
-        options.ClientSecret = builder.Configuration["FusionAuth:ClientSecret"];
+//// Configure the HTTP request pipeline.
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseExceptionHandler("/Error");
+//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//    app.UseHsts();
+//}
 
-        options.ResponseType = OpenIdConnectResponseType.Code;
+//app.UseHttpsRedirection();
+//app.UseStaticFiles();
 
-        options.Scope.Clear();
-        options.Scope.Add("openid");
-        options.Scope.Add("profile");
-        options.Scope.Add("email");
+//app.UseRouting();
 
-        options.CallbackPath = new PathString("/callback");
-        options.ClaimsIssuer = "FusionAuth";
-        options.SaveTokens = true;
+//app.UseAuthentication();
+//app.UseAuthorization();
 
-        // Add handling of logout
-        options.Events = new OpenIdConnectEvents
-        {
-            OnRedirectToIdentityProviderForSignOut = (context) =>
-            {
-                var logoutUri = $"{builder.Configuration["FusionAuth:Issuer"]}/oauth2/logout?client_id={builder.Configuration["FusionAuth:ClientId"]}";
+//app.MapRazorPages();
 
-                context.Response.Redirect(logoutUri);
-                context.HandleResponse();
-                return Task.CompletedTask;
-            }
-        };
-    });
-}
+//app.Run();
+
+
+//static void SetupAuthentication(WebApplicationBuilder builder)
+//{
+
+//    var services = builder.Services;
+
+//    services.AddAuthentication(options => {
+//        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    })
+//    .AddCookie()
+//    .AddOpenIdConnect("FusionAuth", options => {
+
+//        // TODO: Uncomment only if you are running FusionAuth on localhost for development: 
+//        // options.RequireHttpsMetadata = false;
+//        options.Authority = $"{builder.Configuration["FusionAuth:Issuer"]}";
+
+//        options.ClientId = builder.Configuration["FusionAuth:ClientId"];
+//        options.ClientSecret = builder.Configuration["FusionAuth:ClientSecret"];
+
+//        options.ResponseType = OpenIdConnectResponseType.Code;
+
+//        options.Scope.Clear();
+//        options.Scope.Add("openid");
+//        options.Scope.Add("profile");
+//        options.Scope.Add("email");
+
+//        options.CallbackPath = new PathString("/callback");
+//        options.ClaimsIssuer = "FusionAuth";
+//        options.SaveTokens = true;
+
+//        // Add handling of logout
+//        options.Events = new OpenIdConnectEvents
+//        {
+//            OnRedirectToIdentityProviderForSignOut = (context) =>
+//            {
+//                var logoutUri = $"{builder.Configuration["FusionAuth:Issuer"]}/oauth2/logout?client_id={builder.Configuration["FusionAuth:ClientId"]}";
+
+//                context.Response.Redirect(logoutUri);
+//                context.HandleResponse();
+//                return Task.CompletedTask;
+//            }
+//        };
+//    });
+//}

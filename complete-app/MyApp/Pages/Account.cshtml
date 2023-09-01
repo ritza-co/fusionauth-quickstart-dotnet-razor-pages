@@ -1,0 +1,19 @@
+﻿@page
+@model MyApp.Pages.AccountModel
+@{
+}
+
+<div class="text-center">
+
+    <h2>Welcome @User.Claims.FirstOrDefault(c=>c.Type == "email").Value.ToString()</h2>
+    <p>Your balance is $30.00</p>
+</div>
+
+<dl>
+
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>

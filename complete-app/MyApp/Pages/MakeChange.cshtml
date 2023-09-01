@@ -1,0 +1,22 @@
+﻿@page
+@model MyApp.Pages.MakeChangeModel
+@{
+
+
+<h2>Make Change</h2>
+
+<div>
+
+    <form method="post">
+        <input type="number" name="Amount" asp-for="Amount>
+        <input type="submit">
+    </form>
+
+    @if (!String.IsNullOrWhiteSpace(Model.ChangeBreakdown))
+        {
+        <p>@Model.ChangeBreakdown</p>
+    }
+</div>
+
+}
+

@@ -16,12 +16,24 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/Account.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9nb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/MakeChange.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTWFrZUNoYW5nZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/bradley/development/ritza/fusionauth/fusionauth-quickstart-dotnet-razor-pages/complete-app/MyApp/Pages/Privacy.cshtml]

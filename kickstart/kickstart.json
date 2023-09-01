@@ -1,8 +1,8 @@
 {
     "variables": {
-        "allowedOrigin": "https://localhost:7028/",
-        "authorizedRedirectURL": "https://localhost:7028/callback",
-        "authorizedOriginURL": "https://localhost:7028/",
+        "allowedOrigin": "https://localhost:7028",
+        "authorizedRedirectURL": "https://localhost:7028/fusion-callback",
+        "authorizedOriginURL": "https://localhost:7028",
         "logoutURL": "https://localhost:7028/",
         "applicationId": "e9fdb985-9173-4e01-9d73-ac2d60d1dc8e",
         "applicationClientSecret": "super-secret-secret-that-should-be-regenerated-for-production",
