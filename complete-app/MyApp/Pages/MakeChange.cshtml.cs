@@ -16,6 +16,9 @@ namespace MyApp.Pages
         [BindProperty]
         public double Amount { get; set; } = 0.0d;
 
+
+        public int Nickels { get; set; } = 0;
+        public int Pennies { get; set; } = 0; 
         
         public void OnGet()
         {
@@ -23,10 +26,10 @@ namespace MyApp.Pages
 
         public void OnPost()
         {
-            var nickels = Math.Floor(Amount / 0.05);
-            var pennies = Math.Round((Amount - 0.05 * nickels) / 0.01);
+            Nickels = Convert.ToInt32(Math.Floor(Amount / 0.05));
+            Pennies = Convert.ToInt32(Math.Round((Amount - 0.05 * Nickels) / 0.01));
 
-            ChangeBreakdown = String.Format("Your change is {0} nickels and {1} pennies", nickels, pennies);
+            ChangeBreakdown = String.Format("We can make change for ${0:#.00} with {1} nickels and {2} pennies!", Amount,  Nickels, Pennies);
         }
     }
 }

@@ -28,7 +28,7 @@
                 <form method="post">
                     <div class="h-row">
                         <div class="change-label">Amount in USD: $</div>
-                        <input class="change-input" type="number" name="Amount" asp-for="Amount">
+                        <input class="change-input" type="number" step=".01" name="Amount" asp-for="Amount">
                         <input class="change-submit" type="submit" value="Make Change">
                     </div>
                 </form>
