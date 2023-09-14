@@ -3,17 +3,27 @@
 @{
 }
 
-<div class="text-center">
 
-    <h2>Welcome @User.Claims.FirstOrDefault(c=>c.Type == "email").Value.ToString()</h2>
-    <p>Your balance is $30.00</p>
+<div id="menu-bar" class="menu-bar">
+    <a class="menu-link" style="text-decoration-line: underline;">Account</a>
+    <a class="menu-link" asp-area="" asp-page="/MakeChange">Make Change</a>
 </div>
 
-<dl>
 
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
-</dl>
+@*<div class="text-center">
+
+    <h2>Welcome @User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString()</h2>
+    <p>Your balance is $30.00</p>
+</div>*@
+
+<div style="flex: 1;">
+    <!-- Application page -->
+    <div class="column-container">
+        <div class="app-container">
+            <h3>Your balance</h3>
+            <div class="balance">$0.00</div>
+        </div>
+    </div>
+</div>
+
+

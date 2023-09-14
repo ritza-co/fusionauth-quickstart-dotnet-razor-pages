@@ -2,21 +2,43 @@
 @model MyApp.Pages.MakeChangeModel
 @{
 
+    <div id="menu-bar" class="menu-bar">
+        <a class="menu-link" asp-area="" asp-page="/MakeChange">Make Change</a>
+        <a class="menu-link" inactive asp-area="" asp-page="/Account">Account</a>
+    </div>
 
-<h2>Make Change</h2>
 
-<div>
+    <div style="flex: 1;">
+        <div class="column-container">
+            <div class="app-container change-container">
+                <h3>We Make Change</h3>
 
-    <form method="post">
-        <input type="number" name="Amount" asp-for="Amount">
-        <input type="submit">
-    </form>
+                @if (!String.IsNullOrWhiteSpace(Model.Error))
+                {
+                    <div class="error-message">Error making change :(</div>
+                }
 
-    @if (!String.IsNullOrWhiteSpace(Model.ChangeBreakdown))
-        {
-        <p>@Model.ChangeBreakdown</p>
-    }
-</div>
+                @if (!String.IsNullOrWhiteSpace(Model.ChangeBreakdown))
+                {
+                    <div class="change-message">
+                        @Model.ChangeBreakdown
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="h-row">
+                        <div class="change-label">Amount in USD: $</div>
+                        <input class="change-input" type="number" name="Amount" asp-for="Amount">
+                        <input class="change-submit" type="submit" value="Make Change">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 }
+
+
+
 

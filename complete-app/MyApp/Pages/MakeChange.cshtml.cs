@@ -11,9 +11,12 @@ namespace MyApp.Pages
     {
         public string ChangeBreakdown { get; set; } = "";
 
-        [BindProperty]
-        public double Amount { get; set; }
+        public string Error { get; set; } = "";
 
+        [BindProperty]
+        public double Amount { get; set; } = 0.0d;
+
+        
         public void OnGet()
         {
         }

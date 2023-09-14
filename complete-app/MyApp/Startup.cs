@@ -48,21 +48,20 @@ namespace MyApp.Pages
 
                 options.Scope.Clear();
                 options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.Scope.Add("email");   
-                 options.Scope.Add("name"); 
 
                 options.CallbackPath = new PathString("/fusion-callback");
                 options.ClaimsIssuer = "FusionAuth";
                 options.SaveTokens = true;
 
-                // Add handling of logout
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                 // Add handling of logout
                 options.Events = new OpenIdConnectEvents
                 {
-                    OnUserInformationReceived = (context) =>
+                    OnTokenResponseReceived =(context) =>
                     {
-                        Console.WriteLine(context.User);
-                        return Task.CompletedTask;
+                        Console.WriteLine(context.TokenEndpointResponse); 
+                        return Task.CompletedTask; 
                     },
                     OnRedirectToIdentityProviderForSignOut = (context) =>
                     {

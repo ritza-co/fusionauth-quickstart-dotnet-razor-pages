@@ -4,7 +4,28 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div id="menu-bar" class="menu-bar">
+    <a class="menu-link" style="text-decoration-line: underline;">Home</a>
+    <a class="menu-link">About</a>
+    <a class="menu-link">Services</a>
+    <a class="menu-link">Products</a>
 </div>
+
+<div style="flex: 1;">
+    <div class="column-container">
+        <div class="content-container">
+            <div style="margin-bottom: 100px;">
+                <h1>Welcome to Changebank</h1>
+                <p>To get started, <a asp-area="" asp-page="/Account">log in or create a new account</a></p>
+            </div>
+        </div>
+        <div style="flex: 0;">
+            <img src="/img/money.jpg" style="max-width: 800px;" />
+        </div>
+    </div>
+</div>
+
+
+
+
