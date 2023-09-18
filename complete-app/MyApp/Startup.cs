@@ -1,7 +1,5 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace MyApp.Pages
@@ -37,8 +35,6 @@ namespace MyApp.Pages
             })
             .AddOpenIdConnect("FusionAuth", options =>
              {
-                // TODO: Uncomment only if you are running FusionAuth on localhost for development: 
-                // options.RequireHttpsMetadata = false;
                 options.Authority = $"{Configuration["FusionAuth:Issuer"]}";
 
                 options.ClientId = Configuration["FusionAuth:ClientId"];
@@ -55,14 +51,10 @@ namespace MyApp.Pages
 
                 options.GetClaimsFromUserInfoEndpoint = true;
 
-                 // Add handling of logout
+                 
                 options.Events = new OpenIdConnectEvents
                 {
-                    OnTokenResponseReceived =(context) =>
-                    {
-                        Console.WriteLine(context.TokenEndpointResponse); 
-                        return Task.CompletedTask; 
-                    },
+                    // Handle logout events. This redirects to FusionAuth to logout of the session. 
                     OnRedirectToIdentityProviderForSignOut = (context) =>
                     {
                         var logoutUri = $"{Configuration["FusionAuth:Issuer"]}/oauth2/logout?client_id={Configuration["FusionAuth:ClientId"]}";
@@ -98,7 +90,6 @@ namespace MyApp.Pages
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            IdentityModelEventSource.ShowPII = true;
         }
     }
 }
