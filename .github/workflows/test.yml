@@ -27,6 +27,9 @@ jobs:
     strategy:
       matrix:
         dotnet-version: [ '7.0.x' ]
+    defaults:
+      run:
+        working-directory: ./complete-app/MyApp
 
     # timeout after a certain period
     timeout-minutes: 5
@@ -38,8 +41,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Change Directory
-        run: cd complete-app/MyApp
       - name: Install dependencies
         run: dotnet restore
       - name: Build
