@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MyApp.Pages
 {
+    [Authorize]
 	public class MakeChangeModel : PageModel
     {
         public string ChangeBreakdown { get; set; } = "";
@@ -22,6 +24,8 @@ namespace MyApp.Pages
 
         public void OnPost()
         {
+            // TODO: Check for rounding error. Multiply up by 100 to work in cents.
+            // Test with $0.22
             Nickels = Convert.ToInt32(Math.Floor(Amount / 0.05));
             Pennies = Convert.ToInt32(Math.Round((Amount - 0.05 * Nickels) / 0.01));
 
