@@ -24,12 +24,17 @@ namespace MyApp.Pages
 
         public void OnPost()
         {
-            // TODO: Check for rounding error. Multiply up by 100 to work in cents.
-            // Test with $0.22
-            Nickels = Convert.ToInt32(Math.Floor(Amount / 0.05));
-            Pennies = Convert.ToInt32(Math.Round((Amount - 0.05 * Nickels) / 0.01));
+            if (Amount <= 0)
+            {
+                Error = "Please enter an amount greater than $0";
+            }
+            else
+            {
+                Nickels = Convert.ToInt32(Math.Floor(Amount / 0.05));
+                Pennies = Convert.ToInt32(Math.Round((Amount - 0.05 * Nickels) / 0.01));
 
-            ChangeBreakdown = String.Format("We can make change for ${0:#.00} with {1} nickels and {2} pennies!", Amount,  Nickels, Pennies);
+                ChangeBreakdown = String.Format("We can make change for ${0:0.00} with {1} nickels and {2} pennies!", Amount, Nickels, Pennies);
+            }
         }
     }
 }
