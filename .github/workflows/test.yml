@@ -38,6 +38,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+          working-directory: complete-app/MyApp
       - name: Install dependencies
         run: dotnet restore
       - name: Build
