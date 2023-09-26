@@ -25,47 +25,44 @@ namespace MyApp.Pages
             services.AddRazorPages();
 
             services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = "cookie";
-                options.DefaultChallengeScheme = "FusionAuth";
-            })
-            .AddCookie("cookie", options =>
-            {
-                options.Cookie.Name = Configuration["FusionAuth:CookieName"];
-            })
-            .AddOpenIdConnect("FusionAuth", options =>
-             {
-                options.Authority = $"{Configuration["FusionAuth:Issuer"]}";
-
-                options.ClientId = Configuration["FusionAuth:ClientId"];
-                options.ClientSecret = Configuration["FusionAuth:ClientSecret"];
-
-                options.ResponseType = OpenIdConnectResponseType.Code;
-
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-
-                options.CallbackPath = new PathString("/fusion-callback");
-                options.ClaimsIssuer = "FusionAuth";
-                options.SaveTokens = true;
-
-                options.GetClaimsFromUserInfoEndpoint = true;
-
-                 
-                options.Events = new OpenIdConnectEvents
                 {
-                    // Handle logout events. This redirects to FusionAuth to logout of the session. 
-                    OnRedirectToIdentityProviderForSignOut = (context) =>
+                    options.DefaultScheme = "cookie";
+                    options.DefaultChallengeScheme = "FusionAuth";
+                })
+                .AddCookie("cookie", options => { options.Cookie.Name = Configuration["FusionAuth:CookieName"]; })
+                .AddOpenIdConnect("FusionAuth", options =>
+                {
+                    options.Authority = $"{Configuration["FusionAuth:Issuer"]}";
+
+                    options.ClientId = Configuration["FusionAuth:ClientId"];
+                    options.ClientSecret = Configuration["FusionAuth:ClientSecret"];
+
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+
+                    options.Scope.Clear();
+                    options.Scope.Add("openid");
+
+                    options.CallbackPath = new PathString("/fusion-callback");
+                    options.ClaimsIssuer = "FusionAuth";
+                    options.SaveTokens = true;
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+
+                    options.Events = new OpenIdConnectEvents
                     {
-                        var logoutUri = $"{Configuration["FusionAuth:Issuer"]}/oauth2/logout?client_id={Configuration["FusionAuth:ClientId"]}";
+                        // Handle logout events. This redirects to FusionAuth to logout of the session. 
+                        OnRedirectToIdentityProviderForSignOut = (context) =>
+                        {
+                            var logoutUri =
+                                $"{Configuration["FusionAuth:Issuer"]}/oauth2/logout?client_id={Configuration["FusionAuth:ClientId"]}";
 
-                        context.Response.Redirect(logoutUri);
-                        context.HandleResponse();
-                        return Task.CompletedTask;
-                    }
-                };
-            });
-
+                            context.Response.Redirect(logoutUri);
+                            context.HandleResponse();
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -14,6 +14,3 @@ app.UseCookiePolicy(new CookiePolicyOptions
 
 startup.Configure(app, builder.Environment);
 app.Run();
-
-
-
