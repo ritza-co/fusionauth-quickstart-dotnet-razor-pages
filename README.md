@@ -1,16 +1,18 @@
-# Quickstart: Ruby on Rails app with FusionAuth
+# Quickstart: .NET ASP Razor Pages app with FusionAuth
 
-This repository contains a Ruby on Rails app that works with a locally running instance of [FusionAuth](https://fusionauth.io/), the authentication and authorization platform.
+This repository contains a .NET ASP Razor Pages app that works with a locally running instance of [FusionAuth](https://fusionauth.io/), the authentication and authorization platform.
 
 ## Setup
 
 ### Prerequisites
-- [Ruby](https://www.ruby-lang.org/en/documentation/installation/): This will be needed for pulling down the various dependencies.
-- [Rails](https://guides.rubyonrails.org/getting_started.html): This will be used in order to run the Rails server.
-- [Docker](https://www.docker.com): The quickest way to stand up FusionAuth.
-  - (Alternatively, you can [Install FusionAuth Manually](https://fusionauth.io/docs/v1/tech/installation-guide/)).
 
-This app has been tested with Ruby 3.2.2 and Rails 7.0.4.3
+- [.NET 7 ](https://dotnet.microsoft.com/en-us/download/dotnet/7.0): This is the main .NET framework.
+- [Docker](https://www.docker.com): The quickest way to stand up FusionAuth. (There are [other ways](https://fusionauth.io/docs/v1/tech/installation-guide/)).
+
+This app has been tested with .NET 7. This example should work with other compatible versions of .NET.
+
+Optionally, you can also install [Visual Studio](https://visualstudio.microsoft.com/) to make it easier to work with .NET through an IDE.
+
 
 ### FusionAuth Installation via Docker
 
@@ -34,39 +36,53 @@ FusionAuth will be initially configured with these settings:
 
 You can log into the [FusionAuth admin UI](http://localhost:9011/admin) and look around if you want, but with Docker/Kickstart you don't need to.
 
-### Ruby on Rails complete-app
+### .NET ASP Razor Pages complete-app
 
-The `complete-app` directory contains a minimal Ruby on Rails app configured to authenticate with locally running FusionAuth.
+The `complete-app` directory contains a minimal .NET ASP Razor Pages app configured to authenticate with locally running FusionAuth.
 
-Install gems and run the Rails server with:
+First build the application. There are multiple ways of [deploying a .NET application](https://docs.microsoft.com/en-us/dotnet/core/deploying/), but publishing ensures your deployment process is repeatable. Here’s the command to publish a standalone executable for macOS:
+
+```shell
+cd complete-app/MyApp
+dotnet publish -r osx-x64
 ```
-cd complete-app
-bundle install
-OP_SECRET_KEY=super-secret-secret-that-should-be-regenerated-for-production bundle exec rails s
+
+To build for a different platform, modify the `-r` parameter to match the RID for your platform. You can find a [list of RIDs here](https://learn.microsoft.com/en-us/dotnet/core/rid-catalog).
+
+Start up the .NET application using this command:
+
+```shell
+ASPNETCORE_ENVIRONMENT=Development FusionAuth__ClientSecret=super-secret-secret-that-should-be-regenerated-for-production bin/Debug/net7.0/osx-x64/publish/MyApp
 ```
 
-Now vist the Rails app at [http://localhost:3000](http://localhost:3000)
-You can login with a user preconfigured during Kickstart, `richard@example.com` with the password of `password`.
+`ASPNETCORE_ENVIRONMENT` is set to `Development` to ensure the application uses the `appsettings.Development.json` file.
+
+`FusionAuth__ClientSecret` is the client secret, which was defined by the [FusionAuth Kickstart Script](#run-fusionauth-via-docker) step. You don't want to commit secrets like this to version control, so use an environment variable.
+
+You can also run the project from Visual Studio if you prefer.
+
+You can now open up an incognito window and visit the .NET app at https://localhost:7028/ . Log in with the user credentials created with the Kickstart.json file, which should be `richard@example.com` and the password `password`.
+
+You'll see the email of the user next to the log out button. You'll also see the user's `given_name` claim above their balance.
 
 ### Further Information
 
-Visit https://fusionauth.io/quickstarts/quickstart-ruby-rails-web for a step by step guide on how to build this Rails app integrated with FusionAuth by scratch.
+Visit https://fusionauth.io/quickstarts/quickstart-dotnet-razor-pages for a step by step guide on how to build this .NET ASP Razor Pages app integrated with FusionAuth by scratch.
 
 ### Troubleshooting
 
 * I get `This site can’t be reached  localhost refused to connect.` when I click the Login button
 
-Ensure FusionAuth is running in the Docker container.  You should be able to login as the admin user, `admin@example.com` with the password of `password` at http://localhost:9011/admin
+Ensure FusionAuth is running in the Docker container.  You should be able to login as the admin user, `admin@example.com` with a password of `password` at [http://localhost:9011/admin](http://localhost:9011/admin).
 
 * I get an error page when I click on the Login button with message of `"error_reason" : "invalid_client_id"`
 
-Ensure the value for `config.x.fusionauth.client_id` in the file `config/environments/development.rb` matches client id configured in FusionAuth for the Example App application at http://localhost:9011/admin/application/
+Ensure the value for `ClientId` in the `FusionAuth` section of the `appsettings.json` matches the client Id configured in FusionAuth for the Example App Application at [http://localhost:9011/admin/application/](http://localhost:9011/admin/application/).
 
-* I'm getting an error from Rails after logging in
+* I'm getting an error from .NET after logging in
 
 ```
-Rack::OAuth2::Client::Error
-invalid_client :: Invalid client authentication credentials.
+OpenIdConnectProtocolException: Message contains error: 'invalid_client', error_description: 'Client authentication missing as Basic Authorization header or credentials in the body (or some combination of them).', error_uri: 'error_uri is null'.
 ```
 
-This indicates that Omniauth is unable to call FusionAuth to validate the returned token.  It is likely caused my not supplying the correct *client secret*.  Ensure the `OP_SECRET_KEY` used to start rails matches the FusionAuth ExampleApp client secret.  http://localhost:9011/admin/application/
+This indicates that .NET OpenIDConnect is unable to call FusionAuth to validate the returned token.  It is likely caused because of an incorrect client secret, or the client secret has not been passed to the app.  Ensure the `FusionAuth__ClientSecret` environment variable used to start the .NET app matches the FusionAuth ExampleApp client secret. You can review that by logging in as the admin user and examining the Application at [http://localhost:9011/admin/application/](http://localhost:9011/admin/application/)
